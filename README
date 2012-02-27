@@ -1,0 +1,58 @@
+This script runs mig5's backup.sh against all of your Aegir sites and then
+backs up those backups to Amazon S3 just in case someone sets you up the bomb.
+
+The backups sent to S3 are PGP encrypted for additional security. I use this
+with Jenkins, but you could just as easily set up a cron job to run the script.
+
+
+
+### Requirements ###
+
+On your Aegir server:
+- Aegir
+- drush
+- duplicity
+- python-boto
+- passwordless SSH key for aegir user (if running the script remotely)
+- private GPG key (I recommend creating one just for backups)
+
+On the machine that runs the script:
+- Fabric
+
+If you run into a dependency that doesn't get automatically fixed by
+installing the above items, let me know.
+
+
+
+### Usage ###
+
+Because this script requires that you enter information that should probably
+not be stored on a machine that is publicly accessible, I highly recommend that
+you run this script remotely, perhaps over a VPN. In fact, this is how this
+script is designed to work.
+
+Running the script is simple. I prefer to run it as a build job in Jenkins, but
+a cron job should work just fine. Simply use the following syntax (every para-
+meter is required). The script assumes that it lives in /usr/local/bin, but you
+can put it anywhere that you want. If you do put it elsewhere, be sure to up-
+date Line 7 in aegir_s3_backup.sh.
+
+  sh /usr/local/bin/aegir_s3_backup/aegir_s3_backup.sh EXAMPLE.COM:PORT YOUR_AMAZON_BUCKET PGP_KEY PGP_PASSPHRASE AWS_ACCESS_KEY AWS_SECRET_KEY
+
+PGP_KEY is your 8-digit hexadecimal PGP key ID. This key must be stored on your
+Aegir server. I recommend creating a key just for these backups so that your
+personal key doesn't get stolen in the event that your server gets hacked. Even
+if it did, the passphrase isn't stored on the server unless you happen to be
+running this script directly on the server.
+
+### Tips ###
+
+--PGP Key Generation--
+You can generate the PGP key on the server or upload it, your choice. If you
+choose to generate it on the server and you run into a warning about a lack of
+sufficient entropy, open another shell and run the following command:
+
+  dd if=/dev/zero of=test bs=64k count=32k conv=fdatasync
+
+That should keep your server occupied enough. (Don't worry, it just writes a
+2GB file. Just delete it when you're done.)
