@@ -15,6 +15,7 @@ On your Aegir server:
 - python-boto
 - passwordless SSH key for aegir user (if running the script remotely)
 - private GPG key (I recommend creating one just for backups)
+- the backup.sh file from this repo
 
 On the machine that runs the script:
 - Fabric
