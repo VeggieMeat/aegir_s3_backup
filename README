@@ -58,3 +58,15 @@ sufficient entropy, open another shell and run the following command:
 
 That should keep your server occupied enough. (Don't worry, it just writes a
 2GB file. Just delete it when you're done.)
+
+
+### LIMITATION OF LIABILITY ###
+
+The user of this script (i.e. YOU) is responsible for ensuring that backups are
+properly made and properly recoverable. This means that you should test that you
+can, in fact, recover your backups. By downloading this script, you agree that
+Brian Altenhofel and VMdoh are not responsible for any damages caused by the
+failure of this script including but not limited to loss of data, financial loss-
+es, and damages due to your increased liability, if any, due to failure to main-
+tain adequate backup, and you furthermore agree to hold harmless and indemnify
+Brian Altenhofel and VMdoh.
